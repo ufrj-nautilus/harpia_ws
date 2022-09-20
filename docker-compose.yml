@@ -3,7 +3,7 @@ services:
 
   harpia_ws:
     container_name: harpia_ws
-    image: ghcr.io/ufrj-nautilus/harpia:ds4_control
+    image: ghcr.io/ufrj-nautilus/harpia_ws:main
     privileged: true
     environment:
       - DISPLAY=${DISPLAY} 
