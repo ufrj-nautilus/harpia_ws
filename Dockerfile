@@ -11,7 +11,10 @@ RUN apt update && apt upgrade -y
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install ros-humble-desktop-full -y
 
 # Install mavros and mavlink.
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-mavros ros-humble-mavros-extras ros-humble-mavlink
+RUN apt update && DEBIAN_FRONTEND=noninteractive \
+    && apt install -y ros-humble-mavros ros-humble-mavros-extras ros-humble-mavlink \
+    && wget https://raw.githubusercontent.com/mavlink/mavros/ros2/mavros/scripts/install_geographiclib_datasets.sh \
+    && ./install_geographiclib_datasets.sh
 
 # Install some tools.
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
