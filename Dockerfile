@@ -10,6 +10,9 @@ RUN apt update && apt upgrade -y
 # Install ROS Humble Hawksbill desktop
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install ros-humble-desktop-full -y
 
+# Install mavros and mavlink.
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-mavros ros-humble-mavros-extras ros-humble-mavlink
+
 # Install some tools.
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
 
