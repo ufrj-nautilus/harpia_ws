@@ -1,0 +1,16 @@
+version: '3'
+services:
+
+  harpia_ws:
+    container_name: harpia_ws
+    image: ghcr.io/ufrj-nautilus/harpia:ds4_control
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY} 
+    volumes:
+      - ./:/root/catkin_ws/src
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /etc/localtime:/etc/localtime
+    network_mode: host
+    stdin_open: true
+    tty: true
