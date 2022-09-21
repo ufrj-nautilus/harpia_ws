@@ -22,7 +22,7 @@
 # Usage
 ## Start the container
     
-    cd <your_workspace>/src/auv_ws
+    cd <your_workspace>/src/harpia_ws
     xhost +local:docker
     docker-compose up -d; docker attach harpia_ws
 
