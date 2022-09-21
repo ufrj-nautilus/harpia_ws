@@ -26,8 +26,8 @@ RUN cd /root \
     && . /root/.profile \
     && git checkout $(git tag -l | grep Copter | tail -n1) \
     && git submodule update --init --recursive \
-    # && cd Tools/autotest \
-    && cd ArduCopter \
+    && cd Tools/autotest \
+    # && cd ArduCopter \
     && sim_vehicle.py -w
 
 # Install ardupilot_gazebo
