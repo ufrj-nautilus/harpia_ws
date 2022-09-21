@@ -28,7 +28,8 @@ RUN cd /root \
     && git submodule update --init --recursive \
     && cd Tools/autotest \
     # && cd ArduCopter \
-    && sim_vehicle.py -w
+    # && chmod +x sim_vehicle.py \
+    && python3 sim_vehicle.py -w
 
 # Install ardupilot_gazebo
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y rapidjson-dev \
