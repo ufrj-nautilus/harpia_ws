@@ -20,7 +20,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
 
 # Install ArduPilot
 RUN cd /root \
-    && git clone https://github.com/ArduPilot/ardupilot.git \
+    && git clone https://github.com/ufrj-nautilus/ardupilot.git \
     && cd ardupilot \
     && Tools/environment_install/install-prereqs-ubuntu.sh -y \
     && git checkout $(git tag -l | grep Copter | tail -n1) \
