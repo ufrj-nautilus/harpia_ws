@@ -23,10 +23,13 @@ RUN cd /root \
     && git clone https://github.com/ufrj-nautilus/ardupilot.git \
     && cd ardupilot \
     && Tools/environment_install/install-prereqs-ubuntu.sh -y \
-    && . /root/.profile \
     && git checkout $(git tag -l | grep Copter | tail -n1) \
     && git submodule update --init --recursive \
     && cd ArduCopter \
+    && echo 'export PATH=$PATH:/root/ardupilot/Tools/autotest' >> /root/.profile \
+    && echo 'export PATH=/usr/lib/ccache:$PATH' >> /root/.profile \
+    && echo 'export PYTHONPATH=:/usr/local/lib/python3.10/dist-packages:$PYTHONPATH' >> /root/.profile \
+    && . /root/.profile \
     && python3 ../Tools/autotest/sim_vehicle.py -w
 
 # Install ardupilot_gazebo
