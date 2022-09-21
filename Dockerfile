@@ -23,8 +23,10 @@ RUN cd /root \
     && git clone https://github.com/ufrj-nautilus/ardupilot.git \
     && cd ardupilot \
     && Tools/environment_install/install-prereqs-ubuntu.sh -y \
+    && . /root/.profile \
     && git checkout $(git tag -l | grep Copter | tail -n1) \
     && git submodule update --init --recursive \
+    # && cd Tools/autotest \
     && cd ArduCopter \
     && sim_vehicle.py -w
 
