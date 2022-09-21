@@ -29,6 +29,7 @@ RUN cd /root \
     && echo 'export PATH=$PATH:/root/ardupilot/Tools/autotest' >> /root/.profile \
     && echo 'export PATH=/usr/lib/ccache:$PATH' >> /root/.profile \
     && echo 'export PYTHONPATH=:/usr/local/lib/python3.10/dist-packages:$PYTHONPATH' >> /root/.profile \
+    && echo 'export PATH=/root/.local/bin:$PATH' >> /root/.profile \
     && . /root/.profile \
     && python3 ../Tools/autotest/sim_vehicle.py -w
 
