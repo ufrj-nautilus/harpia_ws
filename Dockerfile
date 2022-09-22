@@ -1,5 +1,5 @@
 # Uses the ROS Humble Hawksbill as base image
-FROM ros:humble-ros-base
+FROM ros:foxy-ros-base
 
 # Shell to be used during the build process and the container's default.
 SHELL ["/bin/bash", "-c"]
@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt update && apt upgrade -y
 
 # Install ROS Humble Hawksbill desktop
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install ros-humble-desktop-full -y
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install ros-foxy-desktop-full -y
 
 # Install mavros and mavlink.
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
@@ -34,7 +34,7 @@ RUN cd /root \
     && python3 ../Tools/autotest/sim_vehicle.py -w
 
 # Install ardupilot_gazebo
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y rapidjson-dev libignition-gazebo-dev \
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y rapidjson-dev libignition-gazebo5-dev \
     && cd $HOME \
     && git clone https://github.com/ArduPilot/ardupilot_gazebo \
     && cd ardupilot_gazebo \
