@@ -34,7 +34,7 @@ RUN cd /root \
     && python3 ../Tools/autotest/sim_vehicle.py -w
 
 # Install ardupilot_gazebo
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y rapidjson-dev \
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y rapidjson-dev libignition-gazebo-dev \
     && cd $HOME \
     && git clone https://github.com/ArduPilot/ardupilot_gazebo \
     && cd ardupilot_gazebo \
