@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt update && apt upgrade -y
 
 # Install ROS Humble Hawksbill desktop
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install ros-foxy-desktop-full -y
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install ros-foxy-desktop ignition-edifice -y
 
 # Install mavros and mavlink.
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
