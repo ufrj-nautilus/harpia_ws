@@ -48,9 +48,9 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y rapidjson-dev li
 
 # Harpia simulator
 RUN apt install gazebo11 libgazebo11-dev -y \
-    && source /opt/ros/foxy/setup.bash \
-    && source $HOME/catkin_ws/install/setup.bash \
-    && source /usr/share/gazebo/setup.bash \
+    && echo 'source /opt/ros/foxy/setup.bash' >> /root/.bashrc \
+    && echo 'source $HOME/catkin_ws/install/setup.bash' >> /root/.bashrc \
+    && echo 'source /usr/share/gazebo/setup.bash' >> /root/.bashrc \
     && echo 'export GAZEBO_RESOURCE_PATH=${GAZEBO_RESOURCE_PATH}:${PWD}/src/harpia_simulator' >> /root/.bashrc \
     && echo 'export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/harpia_simulator/models' >> /root/.bashrc
 
