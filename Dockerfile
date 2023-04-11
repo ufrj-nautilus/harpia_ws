@@ -61,4 +61,5 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
 RUN echo "set -g mouse on" >> /root/.tmux.conf
 RUN echo "set-option -g history-limit 20000" >> /root/.tmux.conf
 RUN mkdir -p /root/catkin_ws/src
+RUN pip install -r requirements.txt
 WORKDIR /root/catkin_ws
