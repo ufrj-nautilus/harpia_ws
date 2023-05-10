@@ -9,7 +9,10 @@ RUN apt update && apt upgrade -y
 
 # Install mavros and mavlink.
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
-    && ros2 run mavros install_geographiclib_datasets.sh
+    && wget https://raw.githubusercontent.com/mavlink/mavros/ros2/mavros/scripts/install_geographiclib_datasets.sh \
+    && chmod +x install_geographiclib_datasets.sh \
+    && ./install_geographiclib_datasets.sh \
+    && rm -rf install_geographiclib_datasets.sh
 
 # Install ArduPilot
 RUN cd /root \
