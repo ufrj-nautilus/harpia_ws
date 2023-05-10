@@ -9,6 +9,7 @@ RUN apt update && apt upgrade -y
 
 # Install mavros and mavlink.
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
+    && apt install -y ros-foxy-mavros ros-foxy-mavros-extras ros-foxy-mavros-msgs ros-foxy-mavlink \
     && wget https://raw.githubusercontent.com/mavlink/mavros/ros2/mavros/scripts/install_geographiclib_datasets.sh \
     && chmod +x install_geographiclib_datasets.sh \
     && ./install_geographiclib_datasets.sh \
