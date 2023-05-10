@@ -1,5 +1,5 @@
 # Uses the ROS Foxy as base image
-FROM ros:foxy-ros-desktop-full
+FROM osrf/ros:humble-desktop-full 
 
 # Shell to be used during the build process and the container's default.
 SHELL ["/bin/bash", "-c"]
