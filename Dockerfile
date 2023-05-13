@@ -31,10 +31,10 @@ RUN cd /root \
     && python3 ../Tools/autotest/sim_vehicle.py -w
 # Install gazebo garden
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y lsb-release wget gnupg \
-    && wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
-    && apt update
-    && DEBIAN_FRONTEND=noninteractive apt install -y gz-garden
+    && wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null \
+    && apt update \
+    && DEBIAN_FRONTEND=noninteractive apt install -y gz-garden \
 
 # Install ardupilot_gazebo
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libgz-sim7-dev rapidjson-dev \
