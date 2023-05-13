@@ -4,6 +4,7 @@ services:
   harpia_ws:
     container_name: harpia_ws
     image: ghcr.io/ufrj-nautilus/harpia_ws:main
+    pull_policy: always
     privileged: true
     environment:
       - DISPLAY=${DISPLAY} 

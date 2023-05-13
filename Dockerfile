@@ -1,14 +1,11 @@
 # Uses the ROS Foxy as base image
-FROM ros:foxy-ros-base
+FROM osrf/ros:foxy-desktop
 
 # Shell to be used during the build process and the container's default.
 SHELL ["/bin/bash", "-c"]
 
 # Update the system.
 RUN apt update && apt upgrade -y
-
-# Install ROS Foxy desktop
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install ros-foxy-desktop ignition-edifice -y
 
 # Install mavros and mavlink.
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
@@ -63,9 +60,11 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libgz-sim7-dev r
 # Install some tools.
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
 
+# Python deps
+RUN pip install -r requirements.txt
+
 # Configure the environment.
 RUN echo "set -g mouse on" >> /root/.tmux.conf
 RUN echo "set-option -g history-limit 20000" >> /root/.tmux.conf
 RUN mkdir -p /root/catkin_ws/src
-RUN pip install -r requirements.txt
 WORKDIR /root/catkin_ws
