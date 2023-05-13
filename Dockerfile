@@ -61,6 +61,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libgz-sim7-dev r
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
 
 # Python deps
+COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 # Configure the environment.
