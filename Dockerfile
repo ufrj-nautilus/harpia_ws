@@ -50,12 +50,12 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libgz-sim7-dev r
     && echo 'export GZ_SIM_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:${GZ_SIM_RESOURCE_PATH}' >> /root/.bashrc
 
 # Harpia simulator
-#RUN apt install gazebo11 libgazebo11-dev -y \
-    #&& echo 'source /opt/ros/foxy/setup.bash' >> /root/.bashrc \
-   # && echo 'source $HOME/catkin_ws/install/setup.bash' >> /root/.bashrc \
-  #  && echo 'source /usr/share/gazebo/setup.bash' >> /root/.bashrc \
-#    && echo 'export GAZEBO_RESOURCE_PATH=${GAZEBO_RESOURCE_PATH}:${PWD}/src/harpia_simulator' >> /root/.bashrc \
- #   && echo 'export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/harpia_simulator/models' >> /root/.bashrc
+RUN apt install gazebo11 libgazebo11-dev -y \
+    && echo 'source /opt/ros/foxy/setup.bash' >> /root/.bashrc \
+    && echo 'source $HOME/catkin_ws/install/setup.bash' >> /root/.bashrc \
+    && echo 'source /usr/share/gazebo/setup.bash' >> /root/.bashrc \
+    && echo 'export GAZEBO_RESOURCE_PATH=${GAZEBO_RESOURCE_PATH}:${PWD}/src/harpia_simulator' >> /root/.bashrc \
+    && echo 'export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/harpia_simulator/models' >> /root/.bashrc
 
 # Install some tools.
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
