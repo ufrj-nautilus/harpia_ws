@@ -29,6 +29,7 @@ RUN cd /root \
     && echo 'export PATH=/root/.local/bin:$PATH' >> /root/.profile \
     && . /root/.profile \
     && python3 ../Tools/autotest/sim_vehicle.py -w
+    
 # Install gazebo garden
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y lsb-release wget gnupg \
     && wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
@@ -48,14 +49,6 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libgz-sim7-dev r
     && export GZ_SIM_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:GZ_SIM_RESOURCE_PATH \
     && echo 'export GZ_SIM_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GZ_SIM_SYSTEM_PLUGIN_PATH}' >> /root/.bashrc \
     && echo 'export GZ_SIM_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:${GZ_SIM_RESOURCE_PATH}' >> /root/.bashrc
-
-# Harpia simulator
-RUN apt install gazebo11 libgazebo11-dev -y \
-    && echo 'source /opt/ros/foxy/setup.bash' >> /root/.bashrc \
-    && echo 'source $HOME/catkin_ws/install/setup.bash' >> /root/.bashrc \
-    && echo 'source /usr/share/gazebo/setup.bash' >> /root/.bashrc \
-    && echo 'export GAZEBO_RESOURCE_PATH=${GAZEBO_RESOURCE_PATH}:${PWD}/src/harpia_simulator' >> /root/.bashrc \
-    && echo 'export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/harpia_simulator/models' >> /root/.bashrc
 
 # Install some tools.
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
