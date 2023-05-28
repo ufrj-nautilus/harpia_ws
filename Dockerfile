@@ -50,6 +50,9 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libgz-sim7-dev r
     && echo 'export GZ_SIM_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GZ_SIM_SYSTEM_PLUGIN_PATH}' >> /root/.bashrc \
     && echo 'export GZ_SIM_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:${GZ_SIM_RESOURCE_PATH}' >> /root/.bashrc
 
+# Install robot_localization
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-foxy-robot-localization
+
 # Install some tools.
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
 
