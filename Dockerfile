@@ -38,7 +38,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libgz-sim7-dev r
     && mkdir build && cd build \
     && cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     && make -j4 \
-    && echo 'export GZ_SIM_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GZ_SIM_SYSTEM_PLUGIN_PATH}' >> ~/.bashrc
+    && echo 'export GZ_SIM_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GZ_SIM_SYSTEM_PLUGIN_PATH}' >> ~/.bashrc \
     && echo 'export GZ_SIM_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:${GZ_SIM_RESOURCE_PATH}' >> ~/.bashrc
 
 # Install robot_localization
