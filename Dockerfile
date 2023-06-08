@@ -29,29 +29,31 @@ RUN cd /root \
     && echo 'export PATH=/root/.local/bin:$PATH' >> /root/.profile \
     && . /root/.profile \
     && python3 ../Tools/autotest/sim_vehicle.py -w
-    
+
 # Install ardupilot_gazebo
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libgz-sim6-dev rapidjson-dev \
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libignition-gazebo6-dev rapidjson-dev \
     && cd $HOME \
-    && git clone https://github.com/ArduPilot/ardupilot_gazebo \
+    && git clone https://github.com/ArduPilot/ardupilot_gazebo -b ignition-fortress \
     && cd ardupilot_gazebo \
     && mkdir build && cd build \
     && cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     && make -j4 \
-    && echo 'export GZ_SIM_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GZ_SIM_SYSTEM_PLUGIN_PATH}' >> ~/.bashrc \
-    && echo 'export GZ_SIM_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:${GZ_SIM_RESOURCE_PATH}' >> ~/.bashrc
+    && export IGN_GAZEBO_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:$IGN_GAZEBO_SYSTEM_PLUGIN_PATH \
+    && export IGN_GAZEBO_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:IGN_GAZEBO_RESOURCE_PATH \
+    && echo 'export IGN_GAZEBO_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${IGN_GAZEBO_SYSTEM_PLUGIN_PATH}' >> ~/.bashrc \
+    && echo 'export IGN_GAZEBO_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:${IGN_GAZEBO_RESOURCE_PATH}' >> ~/.bashrc
 
 # Install robot_localization
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-robot-localization
-
-# Install some tools.
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
 
 # Python deps
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-# Configure the environment.
+# Configure environment
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
+RUN echo 'source /opt/ros/humble/setup.bash' >> $HOME/.bashrc
+RUN echo 'source /usr/share/gazebo.sh' >> $HOME/.bashrc
 RUN echo "set -g mouse on" >> /root/.tmux.conf
 RUN echo "set-option -g history-limit 20000" >> /root/.tmux.conf
 RUN mkdir -p /root/catkin_ws/src
