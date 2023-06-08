@@ -33,7 +33,7 @@ RUN cd /root \
 # Install ardupilot_gazebo
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libignition-gazebo6-dev rapidjson-dev \
     && cd $HOME \
-    && git clone https://github.com/ArduPilot/ardupilot_gazebo -b ignition-fortress \
+    && git clone https://github.com/ArduPilot/ardupilot_gazebo -b fortress \
     && cd ardupilot_gazebo \
     && mkdir build && cd build \
     && cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo \
