@@ -46,6 +46,9 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libignition-gaze
 # Install robot_localization
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-robot-localization
 
+# Install Gazebo deps
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ros ros-humble-gazebo-plugins
+
 # Python deps
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
