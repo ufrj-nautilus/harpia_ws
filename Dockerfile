@@ -56,7 +56,7 @@ RUN pip install -r requirements.txt
 # Configure environment
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
 RUN echo 'source /opt/ros/humble/setup.bash' >> $HOME/.bashrc
-RUN echo 'source /usr/share/gazebo.sh' >> $HOME/.bashrc
+RUN echo 'source /usr/share/gazebo/setup.sh' >> $HOME/.bashrc
 RUN echo "set -g mouse on" >> /root/.tmux.conf
 RUN echo "set-option -g history-limit 20000" >> /root/.tmux.conf
 RUN mkdir -p /root/catkin_ws/src
