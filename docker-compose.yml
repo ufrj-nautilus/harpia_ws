@@ -11,7 +11,8 @@ services:
     volumes:
       - ./catkin_ws:/root/catkin_ws/src
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - /etc/localtime:/etc/localtime
+      - /etc:/etc
+      - /dev:/dev
     network_mode: host
     stdin_open: true
     tty: true
