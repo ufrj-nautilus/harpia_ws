@@ -7,7 +7,7 @@ mkdir -p $HOME/$workspace/catkin_ws/src
 cd $HOME/$workspace/catkin_ws/src
 git clone git@github.com:ufrj-nautilus/harpia_simulator.git
 git clone git@github.com:ufrj-nautilus/harpia_CBR.git
-git clone git@github.com:ufrj-nautilus/harpia_mensagens.git
+git clone git@github.com:ufrj-nautilus/harpia_messages.git
 git clone git@github.com:ufrj-nautilus/harpia_localization.git
 git clone git@github.com:ufrj-nautilus/harpia_utils.git
 git clone git@github.com:ufrj-nautilus/harpia_control.git
