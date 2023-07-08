@@ -1,5 +1,5 @@
-# Uses the ROS Foxy as base image
-FROM osrf/ros:foxy-desktop
+# Uses the ROS Humble as base image
+FROM osrf/ros:humble-desktop-full
 
 # Shell to be used during the build process and the container's default.
 SHELL ["/bin/bash", "-c"]
@@ -9,7 +9,7 @@ RUN apt update && apt upgrade -y
 
 # Install mavros and mavlink.
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
-    && apt install -y ros-foxy-mavros ros-foxy-mavros-extras ros-foxy-mavros-msgs ros-foxy-mavlink \
+    && apt install -y ros-humble-mavros ros-humble-mavros-extras ros-humble-mavros-msgs ros-humble-mavlink \
     && wget https://raw.githubusercontent.com/mavlink/mavros/ros2/mavros/scripts/install_geographiclib_datasets.sh \
     && chmod +x install_geographiclib_datasets.sh \
     && ./install_geographiclib_datasets.sh \
@@ -29,35 +29,34 @@ RUN cd /root \
     && echo 'export PATH=/root/.local/bin:$PATH' >> /root/.profile \
     && . /root/.profile \
     && python3 ../Tools/autotest/sim_vehicle.py -w
-    
-# Install gazebo garden
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y lsb-release wget gnupg \
-    && wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null \
-    && apt update \
-    && DEBIAN_FRONTEND=noninteractive apt install -y gz-garden 
 
 # Install ardupilot_gazebo
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libgz-sim7-dev rapidjson-dev \
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libignition-gazebo6-dev rapidjson-dev \
     && cd $HOME \
-    && git clone https://github.com/ArduPilot/ardupilot_gazebo \
+    && git clone https://github.com/ArduPilot/ardupilot_gazebo -b fortress \
     && cd ardupilot_gazebo \
     && mkdir build && cd build \
     && cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     && make -j4 \
-    && export GZ_SIM_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:$GZ_SIM_SYSTEM_PLUGIN_PATH \
-    && export GZ_SIM_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:GZ_SIM_RESOURCE_PATH \
-    && echo 'export GZ_SIM_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GZ_SIM_SYSTEM_PLUGIN_PATH}' >> /root/.bashrc \
-    && echo 'export GZ_SIM_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:${GZ_SIM_RESOURCE_PATH}' >> /root/.bashrc
+    && export IGN_GAZEBO_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:$IGN_GAZEBO_SYSTEM_PLUGIN_PATH \
+    && export IGN_GAZEBO_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:IGN_GAZEBO_RESOURCE_PATH \
+    && echo 'export IGN_GAZEBO_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${IGN_GAZEBO_SYSTEM_PLUGIN_PATH}' >> ~/.bashrc \
+    && echo 'export IGN_GAZEBO_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:${IGN_GAZEBO_RESOURCE_PATH}' >> ~/.bashrc
 
-# Install some tools.
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
+# Install robot_localization
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-robot-localization
+
+# Install Gazebo deps
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ros ros-humble-gazebo-plugins
 
 # Python deps
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-# Configure the environment.
+# Configure environment
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
+RUN echo 'source /opt/ros/humble/setup.bash' >> $HOME/.bashrc
+RUN echo 'source /usr/share/gazebo/setup.bash' >> $HOME/.bashrc
 RUN echo "set -g mouse on" >> /root/.tmux.conf
 RUN echo "set-option -g history-limit 20000" >> /root/.tmux.conf
 RUN mkdir -p /root/catkin_ws/src
