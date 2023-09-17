@@ -15,35 +15,6 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && ./install_geographiclib_datasets.sh \
     && rm -rf install_geographiclib_datasets.sh
 
-# Install ArduPilot
-RUN cd /root \
-    && apt install -y python3-dev python3-opencv python3-wxgtk4.0 python3-pip python3-matplotlib python3-lxml python3-pygame \
-    && git clone https://github.com/ufrj-nautilus/ardupilot.git \
-    && cd ardupilot \
-    && Tools/environment_install/install-prereqs-ubuntu.sh -y \
-    && git checkout $(git tag -l | grep Copter | tail -n1) \
-    && git submodule update --init --recursive \
-    && cd ArduCopter \
-    && pip3 install PyYAML mavproxy --user \
-    && usermod -a -G dialout root \
-    && echo 'export PATH=$PATH:/root/ardupilot/Tools/autotest' >> /root/.profile \
-    && echo 'export PATH=/usr/lib/ccache:$PATH' >> /root/.profile \
-    && echo 'export PYTHONPATH=:/usr/local/lib/python3.8/dist-packages:$PYTHONPATH' >> /root/.profile \
-    && echo 'export PATH=/root/.local/bin:$PATH' >> /root/.profile \
-    && . /root/.profile \
-    && python3 ../Tools/autotest/sim_vehicle.py -w
-
-# Install ardupilot_gazebo
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libignition-gazebo6-dev rapidjson-dev \
-    && cd $HOME \
-    && git clone https://github.com/ArduPilot/ardupilot_gazebo -b fortress \
-    && cd ardupilot_gazebo \
-    && mkdir build && cd build \
-    && cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    && make -j4 \
-    && echo 'export IGN_GAZEBO_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${IGN_GAZEBO_SYSTEM_PLUGIN_PATH}' >> ~/.bashrc \
-    && echo 'export IGN_GAZEBO_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:${IGN_GAZEBO_RESOURCE_PATH}' >> ~/.bashrc
-
 # Install robot_localization
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-robot-localization
 
