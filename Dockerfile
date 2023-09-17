@@ -9,8 +9,11 @@ RUN apt update && apt upgrade -y
 
 # Install mavros and mavlink.
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
-    && apt install -y ros-humble-rqt ros-humble-mavros ros-humble-mavros-extras ros-humble-mavros-msgs ros-humble-mavlink \
-    && ros2 run mavros install_geographiclib_datasets.sh
+    && apt install -y ros-humble-rq tros-humble-mavros ros-humble-mavros-extras ros-humble-mavros-msgs ros-humble-mavlink \
+    && wget https://raw.githubusercontent.com/mavlink/mavros/ros2/mavros/scripts/install_geographiclib_datasets.sh \
+    && chmod +x install_geographiclib_datasets.sh \
+    && ./install_geographiclib_datasets.sh \
+    && rm -rf install_geographiclib_datasets.sh
 
 # Install ArduPilot
 RUN cd /root \
