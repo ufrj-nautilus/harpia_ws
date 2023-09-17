@@ -17,12 +17,15 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
 
 # Install ArduPilot
 RUN cd /root \
+    && apt install -y python3-dev python3-opencv python3-wxgtk4.0 python3-pip python3-matplotlib python3-lxml python3-pygame \
     && git clone https://github.com/ufrj-nautilus/ardupilot.git \
     && cd ardupilot \
     && Tools/environment_install/install-prereqs-ubuntu.sh -y \
     && git checkout $(git tag -l | grep Copter | tail -n1) \
     && git submodule update --init --recursive \
     && cd ArduCopter \
+    && pip3 install PyYAML mavproxy --user \
+    && usermod -a -G dialout root \
     && echo 'export PATH=$PATH:/root/ardupilot/Tools/autotest' >> /root/.profile \
     && echo 'export PATH=/usr/lib/ccache:$PATH' >> /root/.profile \
     && echo 'export PYTHONPATH=:/usr/local/lib/python3.8/dist-packages:$PYTHONPATH' >> /root/.profile \
