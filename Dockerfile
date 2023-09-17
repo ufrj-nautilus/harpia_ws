@@ -9,11 +9,8 @@ RUN apt update && apt upgrade -y
 
 # Install mavros and mavlink.
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
-    && apt install -y ros-humble-mavros ros-humble-mavros-extras ros-humble-mavros-msgs ros-humble-mavlink \
-    && wget https://raw.githubusercontent.com/mavlink/mavros/ros2/mavros/scripts/install_geographiclib_datasets.sh \
-    && chmod +x install_geographiclib_datasets.sh \
-    && ./install_geographiclib_datasets.sh \
-    && rm -rf install_geographiclib_datasets.sh
+    && apt install -y ros-humble-rqt ros-humble-mavros ros-humble-mavros-extras ros-humble-mavros-msgs ros-humble-mavlink \
+    && ros2 run mavros install_geographiclib_datasets.sh
 
 # Install ArduPilot
 RUN cd /root \
@@ -38,8 +35,6 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y libignition-gaze
     && mkdir build && cd build \
     && cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     && make -j4 \
-    && export IGN_GAZEBO_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:$IGN_GAZEBO_SYSTEM_PLUGIN_PATH \
-    && export IGN_GAZEBO_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:IGN_GAZEBO_RESOURCE_PATH \
     && echo 'export IGN_GAZEBO_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${IGN_GAZEBO_SYSTEM_PLUGIN_PATH}' >> ~/.bashrc \
     && echo 'export IGN_GAZEBO_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:${IGN_GAZEBO_RESOURCE_PATH}' >> ~/.bashrc
 
