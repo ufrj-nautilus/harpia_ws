@@ -22,8 +22,8 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-robot
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ros ros-humble-gazebo-plugins
 
 # Python deps
-COPY ./requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+# COPY ./requirements.txt requirements.txt
+# RUN pip install -r requirements.txt
 
 # Configure environment
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
