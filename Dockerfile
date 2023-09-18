@@ -1,5 +1,5 @@
 # Uses the ROS Humble as base image
-FROM osrf/ros:humble-ros-base-jammy
+FROM ros:humble-ros-base-jammy
 
 # Shell to be used during the build process and the container's default.
 SHELL ["/bin/bash", "-c"]
