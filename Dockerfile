@@ -18,21 +18,21 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
 # Ardupilot
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && apt install -y default-jre socat \
-    && cd \
+    && cd /root \
     && git clone --recurse-submodules https://github.com/ardupilot/Micro-XRCE-DDS-Gen.git \
-    && cd Micro-XRCE-DDS-Gen \
+    && cd /root/Micro-XRCE-DDS-Gen \
     && ./gradlew assemble \
     && export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts \
     && echo "export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts" >> /root/.bashrc \
     && source /root/.bashrc \
-    && source /opt/ros/humble/setup.bash \
-    && cd \
+    && cd /root \
     && apt install -y python3-future python3-serial \
     && mkdir -p /root/catkin_ws/src \
     && cd /root/catkin_ws/src \
     && wget https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/ros2/ros2.repos \
     && vcs import --recursive < ros2.repos \
-    && cd .. \
+    && cd /root/catkin_ws \
+    && source /opt/ros/humble/setup.bash \
     && apt update \
     && rosdep update \
     && rosdep install --rosdistro humble --from-paths src -r -y \
@@ -55,7 +55,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && vcs import --recursive < ros2_gz.repos \
     && export GZ_VERSION=garden \
     && echo "export GZ_VERSION=garden" >> /root/.bashrc \
-    && cd .. \
+    && cd /root/catkin_ws \
     && source /opt/ros/humble/setup.bash \
     && apt update \
     && rosdep update \
