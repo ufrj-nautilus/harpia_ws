@@ -35,7 +35,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && cd .. \
     && apt update \
     && rosdep update \
-    && rosdep install --rosdistro ${ROS_DISTRO} --from-paths src -y \
+    && rosdep install --rosdistro humble --from-paths src -r -y \
     && colcon build --cmake-args -DBUILD_TESTING=ON \
     && export PATH=$PATH:/root/catkin_w/src/ardupilot/Tools/autotest \
     && echo "export PATH=$PATH:/root/catkin_ws/src/ardupilot/Tools/autotest" >> /root/.bashrc
@@ -59,7 +59,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && source /opt/ros/humble/setup.bash \
     && apt update \
     && rosdep update \
-    && rosdep install --rosdistro $ROS_DISTRO --from-paths src -i -r -y \
+    && rosdep install --rosdistro humble --from-paths src -i -r -y \
     && colcon build --cmake-args -DBUILD_TESTING=ON
 
 # Install robot_localization
