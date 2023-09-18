@@ -25,11 +25,9 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && git clone --recurse-submodules https://github.com/ardupilot/Micro-XRCE-DDS-Gen.git \
     && cd Micro-XRCE-DDS-Gen \
     && ./gradlew assemble \
+    && export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts \
     && echo "export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts" >> /root/.bashrc \
-    && cd
-
-# Ardupilot
-RUN apt update && DEBIAN_FRONTEND=noninteractive \
+    && cd \
     && apt install -y python3-future python3-serial \
     && cd /root/catkin_ws/src \
     && wget https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/ros2/ros2.repos \
