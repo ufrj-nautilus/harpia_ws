@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt upgrade -y
 
 # Create workspace
-RUN mkdir -p /root/catkin_ws/src \
+RUN mkdir -p /root/catkin_ws/src
 
 # Install mavros and mavlink.
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
@@ -35,10 +35,10 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && wget https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/ros2/ros2.repos \
     && vcs import < ros2.repos \
     && cd .. \
+    && source /opt/ros/humble/setup.bash \
     && rosdep update \
     && rosdep install --rosdistro ${ROS_DISTRO} --from-paths src -i -y \
     && colcon build --cmake-args -DBUILD_TESTING=ON \
-    && rm -rf /root/catkin_ws/src/ros2.repos
 
 # Gazebo Garden
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
