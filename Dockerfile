@@ -26,14 +26,14 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && cd Micro-XRCE-DDS-Gen \
     && ./gradlew assemble \
     && echo "export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts" >> /root/.bashrc \
-    && cd ~
+    && cd
 
 # Ardupilot
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && apt install -y python3-future python3-serial \
     && cd /root/catkin_ws/src \
     && wget https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/ros2/ros2.repos \
-    && vcs import < ros2.repos \
+    && vcs import --recursive < ros2.repos \
     && cd .. \
     && rosdep update \
     && rosdep install --rosdistro ${ROS_DISTRO} --from-paths src -i -y \
@@ -66,6 +66,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-robot-localization
 
 # Install rtabmap
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-rtabmap-ros
 
 # Python deps
 # COPY ./requirements.txt requirements.txt
