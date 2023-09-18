@@ -7,9 +7,6 @@ SHELL ["/bin/bash", "-c"]
 # Update and upgrade system.
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt upgrade -y
 
-# Create workspace
-RUN mkdir -p /root/catkin_ws/src
-
 # Install mavros and mavlink.
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && apt install -y ros-humble-rqt ros-humble-mavros ros-humble-mavros-extras ros-humble-mavros-msgs ros-humble-mavlink \
@@ -29,13 +26,16 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && echo "export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts" >> /root/.bashrc \
     && cd \
     && apt install -y python3-future python3-serial \
+    && mkdir -p /root/catkin_ws/src \
     && cd /root/catkin_ws/src \
     && wget https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/ros2/ros2.repos \
     && vcs import --recursive < ros2.repos \
     && cd .. \
     && rosdep update \
+    && apt update \
     && rosdep install --rosdistro ${ROS_DISTRO} --from-paths src -i -y \
     && source /opt/ros/humble/setup.bash \
+    && source /root/.bashrc \
     && colcon build --cmake-args -DBUILD_TESTING=ON
 
 # Gazebo Garden
@@ -73,7 +73,6 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-rtabm
 # Configure environment
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y tmux htop vim
 RUN echo 'source /opt/ros/humble/setup.bash' >> $HOME/.bashrc
-RUN echo 'source /usr/share/gazebo/setup.bash' >> $HOME/.bashrc
 RUN echo "set -g mouse on" >> /root/.tmux.conf
 RUN echo "set-option -g history-limit 20000" >> /root/.tmux.conf
 RUN mkdir -p /root/catkin_ws/src
