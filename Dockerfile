@@ -25,6 +25,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts \
     && echo "export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts" >> /root/.bashrc \
     && source /root/.bashrc \
+    && source /opt/ros/humble/setup.bash \
     && cd \
     && apt install -y python3-future python3-serial \
     && mkdir -p /root/catkin_ws/src \
@@ -34,9 +35,10 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && cd .. \
     && apt update \
     && rosdep update \
-    && rosdep install --rosdistro ${ROS_DISTRO} --from-paths src -i -y \
-    && source /opt/ros/humble/setup.bash \
-    && colcon build --cmake-args -DBUILD_TESTING=ON
+    && rosdep install --rosdistro ${ROS_DISTRO} --from-paths src -y \
+    && colcon build --cmake-args -DBUILD_TESTING=ON \
+    && export PATH=$PATH:/root/catkin_w/src/ardupilot/Tools/autotest \
+    && echo "export PATH=$PATH:/root/catkin_ws/src/ardupilot/Tools/autotest" >> /root/.bashrc
 
 # Gazebo Garden
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
@@ -54,10 +56,10 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && export GZ_VERSION=garden \
     && echo "export GZ_VERSION=garden" >> /root/.bashrc \
     && cd .. \
+    && source /opt/ros/humble/setup.bash \
     && apt update \
     && rosdep update \
     && rosdep install --rosdistro $ROS_DISTRO --from-paths src -i -r -y \
-    && source /opt/ros/humble/setup.bash \
     && colcon build --cmake-args -DBUILD_TESTING=ON
 
 # Install robot_localization
