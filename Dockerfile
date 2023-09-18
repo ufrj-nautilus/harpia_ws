@@ -35,16 +35,17 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && wget https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/ros2/ros2.repos \
     && vcs import < ros2.repos \
     && cd .. \
-    && source /opt/ros/humble/setup.bash \
     && rosdep update \
     && rosdep install --rosdistro ${ROS_DISTRO} --from-paths src -i -y \
-    && colcon build --cmake-args -DBUILD_TESTING=ON \
+    && source /opt/ros/humble/setup.bash \
+    && colcon build --cmake-args -DBUILD_TESTING=ON
 
 # Gazebo Garden
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && apt install -y install lsb-release wget gnupg \
     && wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" \
+    | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null \
     && apt install -y gz-garden
 
 # ardupilot_gz
@@ -55,10 +56,10 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && export GZ_VERSION=garden \
     && echo "export GZ_VERSION=garden" >> /root/.bashrc \
     && cd .. \
-    && source /opt/ros/humble/setup.bash \
     && apt update \
     && rosdep update \
     && rosdep install --rosdistro $ROS_DISTRO --from-paths src -i -r -y \
+    && source /opt/ros/humble/setup.bash \
     && colcon build --cmake-args -DBUILD_TESTING=ON
 
 # Install robot_localization
@@ -71,7 +72,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y ros-humble-robot
 # RUN pip install -r requirements.txt
 
 # Configure environment
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install tmux htop vim -y
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y tmux htop vim
 RUN echo 'source /opt/ros/humble/setup.bash' >> $HOME/.bashrc
 RUN echo 'source /usr/share/gazebo/setup.bash' >> $HOME/.bashrc
 RUN echo "set -g mouse on" >> /root/.tmux.conf
