@@ -15,15 +15,16 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && ./install_geographiclib_datasets.sh \
     && rm -rf install_geographiclib_datasets.sh
 
-# Micro-XRCE-DDS-Gen
+# Ardupilot
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && apt install -y default-jre socat \
-    && cd ~ \
+    && cd \
     && git clone --recurse-submodules https://github.com/ardupilot/Micro-XRCE-DDS-Gen.git \
     && cd Micro-XRCE-DDS-Gen \
     && ./gradlew assemble \
     && export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts \
     && echo "export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts" >> /root/.bashrc \
+    && source /root/.bashrc \
     && cd \
     && apt install -y python3-future python3-serial \
     && mkdir -p /root/catkin_ws/src \
@@ -31,11 +32,10 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && wget https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/ros2/ros2.repos \
     && vcs import --recursive < ros2.repos \
     && cd .. \
-    && rosdep update \
     && apt update \
+    && rosdep update \
     && rosdep install --rosdistro ${ROS_DISTRO} --from-paths src -i -y \
     && source /opt/ros/humble/setup.bash \
-    && source /root/.bashrc \
     && colcon build --cmake-args -DBUILD_TESTING=ON
 
 # Gazebo Garden
