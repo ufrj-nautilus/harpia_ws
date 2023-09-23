@@ -1,12 +1,17 @@
 # Uses the ROS Humble as base image
 FROM ros:humble-ros-base-jammy
 
+# Shell to be used during the build process and the container's default.
+SHELL ["/bin/bash", "-c"]
+
 # Update and upgrade system.
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt upgrade -y
 
 # Python deps
 COPY ./requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN apt update && DEBIAN_FRONTEND=noninteractive \
+    && apt install -y python3-pip \
+    && pip install -r requirements.txt
 
 # Gazebo Garden
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
@@ -43,7 +48,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts \
     && echo "export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts" >> /root/.bashrc \
     && cd /root \
-    && apt install -y python3-future python3-serial python3-pip python-is-python3 gdb \
+    && apt install -y python3-future python3-serial python-is-python3 gdb \
     && pip install pexpect PyYAML mavproxy waftools pexpect \
     && mkdir -p /root/catkin_ws/src \
     && cd /root/catkin_ws/src \
@@ -52,7 +57,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && cd /root/catkin_ws \
     && rosdep update \
     && rosdep install --rosdistro humble --from-paths src -i -r -y \
-    && . /opt/ros/humble/setup.sh \
+    && source /opt/ros/humble/setup.sh \
     && colcon build \
     && export PATH=$PATH:/root/catkin_ws/src/ardupilot/Tools/autotest \
     && echo "export PATH=$PATH:/root/catkin_ws/src/ardupilot/Tools/autotest" >> /root/.bashrc \
@@ -65,7 +70,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && apt update \
     && rosdep update \
     && rosdep install --rosdistro humble --from-paths src -i -r -y \
-    && . /opt/ros/humble/setup.sh \
+    && source /opt/ros/humble/setup.sh \
     && colcon build \
     && sim_vehicle.py -w -v ArduCopter
 
