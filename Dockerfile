@@ -39,7 +39,8 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts \
     && echo "export PATH=$PATH:/root/Micro-XRCE-DDS-Gen/scripts" >> /root/.bashrc \
     && cd /root \
-    && apt install -y python3-future python3-serial \
+    && apt install -y python3-future python3-serial python3-pip python-is-python3 gdb \
+    && pip install pexpect PyYAML mavproxy waftools pexpect --user \
     && mkdir -p /root/catkin_ws/src \
     && cd /root/catkin_ws/src \
     && wget https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/ros2/ros2.repos \
