@@ -28,7 +28,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && ./install_geographiclib_datasets.sh \
     && rm -rf install_geographiclib_datasets.sh
 
-# Install ardupilot
+# Install ardupilot and ardupilot_gz
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && apt upgrade -y \
     && apt install -y default-jre socat \
@@ -51,11 +51,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && . /opt/ros/humble/setup.sh \
     && colcon build \
     && export PATH=$PATH:/root/catkin_ws/src/ardupilot/Tools/autotest \
-    && echo "export PATH=$PATH:/root/catkin_ws/src/ardupilot/Tools/autotest" >> /root/.bashrc
-
-# Install ardupilot_gz
-RUN apt update && DEBIAN_FRONTEND=noninteractive \
-    && apt upgrade -y \
+    && echo "export PATH=$PATH:/root/catkin_ws/src/ardupilot/Tools/autotest" >> /root/.bashrc \
     && cd /root/catkin_ws/src \
     && wget https://raw.githubusercontent.com/ArduPilot/ardupilot_gz/main/ros2_gz.repos \
     && vcs import --recursive < ros2_gz.repos \
@@ -66,7 +62,8 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && rosdep update \
     && rosdep install --rosdistro humble --from-paths src -i -r -y \
     && . /opt/ros/humble/setup.sh \
-    && colcon build
+    && colcon build \
+    && sim_vehicle.py -w -v ArduCopter
 
 # Python deps
 # COPY ./requirements.txt requirements.txt
