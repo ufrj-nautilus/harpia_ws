@@ -4,6 +4,10 @@ FROM ros:humble-ros-base-jammy
 # Update and upgrade system.
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt upgrade -y
 
+# Python deps
+COPY ./requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
 # Gazebo Garden
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && apt upgrade -y \
@@ -64,10 +68,6 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive \
     && . /opt/ros/humble/setup.sh \
     && colcon build \
     && sim_vehicle.py -w -v ArduCopter
-
-# Python deps
-# COPY ./requirements.txt requirements.txt
-# RUN pip install -r requirements.txt
 
 # Configure environment
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y tmux htop vim
