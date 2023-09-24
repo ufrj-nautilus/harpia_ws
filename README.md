@@ -5,8 +5,6 @@
 4. [Troubleshooting](#troubleshooting)
 
 # Prerequisites
-## Install Git LFS
-<https://git-lfs.github.com/>
 ## Install Docker and Docker Compose<br />
 <https://docs.docker.com/engine/install/><br />
 <https://docs.docker.com/compose/install/>
@@ -17,14 +15,17 @@
 # Installation
 ## Clone the entire workspace
     
-    git clone https://github.com/ufrj-nautilus/harpia_ws.git
-    cd harpia_ws && ./install.sh
+    git clone --recursive git@github.com:ufrj-nautilus/harpia_ws.git
 # Usage
 ## Start the container
     
-    cd <your_workspace>/src/harpia_ws
+    cd harpia_ws
     xhost +local:docker
     docker-compose up -d; docker attach harpia_ws
+
+## Update the workspace
+
+    git submodule update
 
 # Troubleshooting
 ##  Slow performance on gazebo with a NVIDIA card

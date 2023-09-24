@@ -1,0 +1,12 @@
+[submodule "catkin_ws/src/harpia_CBR"]
+	path = catkin_ws/src/harpia_CBR
+	url = git@github.com:ufrj-nautilus/harpia_CBR.git
+[submodule "catkin_ws/src/harpia_utils"]
+	path = catkin_ws/src/harpia_utils
+	url = git@github.com:ufrj-nautilus/harpia_utils.git
+[submodule "catkin_ws/src/harpia_simulator"]
+	path = catkin_ws/src/harpia_simulator
+	url = git@github.com:ufrj-nautilus/harpia_simulator.git
+[submodule "catkin_ws/src/harpia_messages"]
+	path = catkin_ws/src/harpia_messages
+	url = git@github.com:ufrj-nautilus/harpia_messages.git
